@@ -7,18 +7,40 @@
 <h6>on {{post.date}}</h6>
 {{post.body|safe|linebreaks}}
 <img src="{{post.image.url}}" width="500px" height="500px"/>
+<br/><br/><h3><strong>Don cam do</strong></h3>
+{% for camdo in post.camdo.all %}
+    <h4><strong>{{camdo.author}}</strong></h4>
+    <h6><p>on {{camdo.date}}</p></h6>
+    <p><label>Ho ten:</label> {{camdo.name}}</p>
+    <p><label>San pham cam:</label> {{camdo.product}}</p>
+    <p><label>Hinh anh:</label> <img src="{{camdo.image}}"/></p>
+    <p><label>Lai suat: 18%</label></p>
+    <p><label>Dao han:</label> on {{camdo.deadline}}</p>
+{% endfor %}
+{% if user.username %}
+    <form action="{% url 'post' post.id %}" method='POST'>
+        {% csrf_token %}<br/>
+        <p><label>***Tao don cam do***</label></p>
+        <p><label>Ho ten:</label> {{camdo.name}}</p>
+        <p><label>San pham:</label> {{camdo.product}}</p>
+        <!--<p><label>Hinh anh:</label> {{camdo.image}}</p>-->
+        <br/>
+        <input type="submit" value="Tao don"/>
+    </form>
+{% endif %}
+<br/><br/><h3><strong>Binh luan</strong></h3>
 {% for comment in post.comments.all %}
     <h4><strong>{{comment.author}}</strong></h4>
-    <h6><p>{{comment.date}}</p></h6>
+    <h6><p>on {{comment.date}}</p></h6>
     <p>{{comment.body|linebreaks}}</p>
 {% endfor %}
 {% if user.username %}
     <form action="{% url 'post' post.id %}" method='POST'>
         {% csrf_token %}<br/>
-        <p><label>Binh luan</label></p>
+        <p><label>***Dat cau hoi***</label></p>
         {{form.body}}
         <br/>
-        <input type="submit" value="Binh luan"/>
+        <input type="submit" value="Dat cau hoi"/>
     </form>
 {% endif %}
 {% endblock  %}
